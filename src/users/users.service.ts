@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm'; 
 import { InjectRepository } from '@nestjs//typeorm';
 import { User } from './users.entity';
-import { create } from 'domain';
+
 
 @Injectable()
 export class UsersService {
@@ -12,5 +12,21 @@ export class UsersService {
             const user = this.repo.create({ email, password });
 
             return this.repo.save(user);
+    }
+
+    findOne(id: number) {
+        return this.repo.findOneBy({ id});
+    }
+
+    find(email: string) {
+        return this.repo.find({ where: { email }});
+    }
+
+    update() {
+        
+    }
+
+    remove() {
+        
     }
 }
