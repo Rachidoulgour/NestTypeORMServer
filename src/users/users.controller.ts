@@ -7,9 +7,18 @@ import { UserDto } from './dtos/user.dto';
 import { AuthService } from './/auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 
+import { User } from './users.entity';
+
 @Controller('auth')
+@Serialize(UserDto)
+//@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
     constructor(private usersService: UsersService, private authService: AuthService) {}
+
+    @Get('/whoami')
+    whoAmI(@CurrentUser() user: User) {
+        return user;
+    }
 
     @Post('/signout')
     signOut(@Session() session: any) {
@@ -29,7 +38,7 @@ export class UsersController {
         return user;
     }
 
-    @Serialize(UserDto)
+    
     @Get('/:id')
     async findUser(@Param('id') id: string) {
         const user = await  this.usersService.findOne(parseInt(id));
