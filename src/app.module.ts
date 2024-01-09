@@ -46,9 +46,10 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService){}
   consfigure(consumer: MiddlewareConsumer) {
     consumer.apply(cookieSession({
-      keys: ['cookie']
+      keys: [this.configService.get('COOKIE_KEY')]
     })).forRoutes('*');
   }
 }
